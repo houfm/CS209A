@@ -5,11 +5,12 @@ import java.sql.SQLException;
 
 public class dataCollectMain {
     public static void main(String[] args) throws SQLException, IOException {
-        String string="drop table if exists comment;\n" +
-                "drop table if exists answer;\n" +
-                "drop table if exists tag;\n" +
-                "drop table if exists question;\n" +
-                "create table question (\n" +
+        //TODO: drop我给你删了，感觉还是太危险，贴下面了
+        // "drop table if exists comment;\n" +
+        // "drop table if exists answer;\n" +
+        // "drop table if exists tag;\n" +
+        // "drop table if exists question;\n" +
+        String string = "create table question (\n" +
                 "    question_id int primary key,\n" +
                 "    score int not null,\n" +
                 "    link text not null,\n" +
@@ -53,12 +54,12 @@ public class dataCollectMain {
                 "    foreign key (post_id) references  answer(answer_id)\n" +
                 ")";
         // TODO: change the username and password to your own
-        databaseService databaseService = new databaseService("slina","990522","cs209a");
+        databaseService databaseService = new databaseService("slina", "990522", "cs209a");
         // pageStep is used to manage the step between two pages that are crawled
         // pageSize is the number of questions that are crawled in one page,
         // the maximum is 100
         // pageTotal is the total number of pages that are crawled
-        dataCollection dataCollection = new dataCollection(3,1,5,
+        dataCollection dataCollection = new dataCollection(3, 1, 5,
                 databaseService);
         databaseService.connect();
         databaseService.createTable();

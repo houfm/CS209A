@@ -1,5 +1,6 @@
 package cse.java2.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "answer_id")
-    private int answerId;
+    private Long answerId;
     
     @Column(name = "last_activity_date")
     private Timestamp lastActivityDate;
@@ -35,7 +36,7 @@ public class Answer {
     private String contentLicense;
     
     @Column(name = "question_id")
-    private int questionId;
+    private Long questionId;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
@@ -45,8 +46,9 @@ public class Answer {
     private String body;
     
     @Column(name = "account_id")
-    private int accountId;
+    private Long accountId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<Comment> commentList;
 

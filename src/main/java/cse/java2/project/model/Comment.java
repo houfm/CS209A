@@ -13,13 +13,13 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "comment_id")
-    private int commentId;
+    private Long commentId;
     
     @Column(name = "edited")
     private boolean edited;
     
     @Column(name = "post_id")
-    private int postId;
+    private Long postId;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
@@ -37,7 +37,7 @@ public class Comment {
     private String contentLicense;
     
     @Column(name = "account_id")
-    private int accountId;
+    private Long accountId;
 
     @Override
     public boolean equals(Object o) {

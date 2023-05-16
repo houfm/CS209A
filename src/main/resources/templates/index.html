@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <style>
+        .container {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #ECECEC;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="title">CS209</h1>
+    <div class="buttons">
+        <button class="button" th:text="${button1Text}" th:onclick="${button1Action}"></button>
+        <button class="button" th:text="${button2Text}" th:onclick="${button2Action}"></button>
+        <button class="button" th:text="${button3Text}" th:onclick="${button3Action}"></button>
+        <button class="button" th:text="${button4Text}" th:onclick="${button4Action}"></button>
+    </div>
+</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package cse.java2.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Tag {
     @Column(name = "tag")
     private String tag;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "tags", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Question> questions;
 

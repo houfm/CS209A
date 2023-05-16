@@ -14,7 +14,7 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "question_id")
-    private int questionId;
+    private Long questionId;
 
     @Column(name = "score")
     private int score;
@@ -44,7 +44,7 @@ public class Question {
     private Timestamp creationDate;
     
     @Column(name = "account_id")
-    private int accountId;
+    private Long accountId;
     
     @Column(name = "body")
     private String body;
@@ -64,7 +64,7 @@ public class Question {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Question question = (Question) o;
-        return questionId == question.questionId && score == question.score && answerCount == question.answerCount && viewCount == question.viewCount && accountId == question.accountId && Objects.equals(link, question.link) && Objects.equals(contentLicense, question.contentLicense) && Objects.equals(title, question.title) && Objects.equals(lastActivityDate, question.lastActivityDate) && Objects.equals(lastEditDate, question.lastEditDate) && Objects.equals(creationDate, question.creationDate) && Objects.equals(body, question.body);
+        return Objects.equals(questionId, question.questionId) && score == question.score && answerCount == question.answerCount && viewCount == question.viewCount && accountId == question.accountId && Objects.equals(link, question.link) && Objects.equals(contentLicense, question.contentLicense) && Objects.equals(title, question.title) && Objects.equals(lastActivityDate, question.lastActivityDate) && Objects.equals(lastEditDate, question.lastEditDate) && Objects.equals(creationDate, question.creationDate) && Objects.equals(body, question.body);
     }
 
     @Override
@@ -72,3 +72,4 @@ public class Question {
         return Objects.hash(questionId, score, link, answerCount, viewCount, contentLicense, title, lastActivityDate, lastEditDate, creationDate, accountId, body);
     }
 }
+

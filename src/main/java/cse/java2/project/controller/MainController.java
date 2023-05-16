@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class DemoController {
+public class MainController {
 
     /**
      * This method is called when the user requests the root URL ("/") or "/demo".

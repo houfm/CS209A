@@ -1,4 +1,4 @@
-package cse.java2.project.controller;
+package cse.java2.project.dataCollect;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -251,7 +251,7 @@ public class databaseService {
         );
     }
 
-    void insertCommentRecord(JSONObject commentJSON) throws SQLException {
+    public void insertCommentRecord(JSONObject commentJSON) throws SQLException {
         JSONObject ownerJson = commentJSON.getJSONObject("owner");
         insertComment(
                 commentJSON.getInteger("comment_id"),

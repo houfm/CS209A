@@ -1,4 +1,4 @@
-package cse.java2.project.controller;
+package cse.java2.project.dataCollect;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class dataCollection {
-    private cse.java2.project.controller.databaseService databaseService;
+    private cse.java2.project.dataCollect.databaseService databaseService;
     private int pageSize;
     private int pageStep;
     private int pageTotal;
@@ -24,7 +24,7 @@ public class dataCollection {
     private List<JSONObject> answerList;
     private List<JSONObject> commentList;
 
-    public dataCollection(int pageSize, int pageStep, int pageTotal, cse.java2.project.controller.databaseService databaseService) {
+    public dataCollection(int pageSize, int pageStep, int pageTotal, cse.java2.project.dataCollect.databaseService databaseService) {
         this.pageSize = pageSize;
         this.pageStep = pageStep;
         this.pageTotal = pageTotal;

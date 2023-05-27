@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>主页</title>
@@ -33,10 +33,10 @@
 <div class="container">
     <h1 class="title">CS209</h1>
     <div class="buttons">
-        <button class="button" th:text="${button1Text}" th:onclick="${button1Action}"></button>
-        <button class="button" th:text="${button2Text}" th:onclick="${button2Action}"></button>
-        <button class="button" th:text="${button3Text}" th:onclick="${button3Action}"></button>
-        <button class="button" th:text="${button4Text}" th:onclick="${button4Action}"></button>
+        <button class="button" th:text="${button1Text}" th:onclick="'location = \'' + @{${button1Action}} + '\';'">1</button>
+        <button class="button" th:text="${button2Text}" th:onclick="'location = \'' + @{${button2Action}} + '\';'">2</button>
+        <button class="button" th:text="${button3Text}" th:onclick="'location = \'' + @{${button3Action}} + '\';'">3</button>
+        <button class="button" th:text="${button4Text}" th:onclick="'location = \'' + @{${button4Action}} + '\';'">4</button>
     </div>
 </div>
 </body>

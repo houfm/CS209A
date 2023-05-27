@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,8 +21,8 @@ public class Tag {
     private String tag;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "tags", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Question> questions;
+    @ManyToMany(mappedBy = "tagList", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Question> questionList;
 
     @Override
     public boolean equals(Object o) {
@@ -35,4 +36,5 @@ public class Tag {
     public int hashCode() {
         return Objects.hash(tagId, tag);
     }
+
 }

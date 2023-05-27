@@ -27,10 +27,19 @@ public class MainController {
         model.addAttribute("button3Text", "Tags");
         model.addAttribute("button4Text", "Users");
         model.addAttribute("button1Action", "/numberOfAnswers");
-        model.addAttribute("button2Action", "/acceptedAnswers");
-        model.addAttribute("button3Action", "/tags");
-        model.addAttribute("button4Action", "/users");
+//        model.addAttribute("button2Action", "/acceptedAnswers");
+//        model.addAttribute("button3Action", "/tags");
+//        model.addAttribute("button4Action", "/users");
         return "index";
     }
 
+    @GetMapping({"/test"})
+    public String test() {
+        return "grapic";
+    }
+
+    @GetMapping({"/demo1"})
+    public String demo1() {
+        return "demo1";
+    }
 }

@@ -30,7 +30,7 @@ public class QuestionService {
         Set<Question> questions = new HashSet<>();
         for (String tag : tags) {
             Tag t = TagRepository.findAllByTag(tag);
-                questions.addAll(t.getQuestions());
+                questions.addAll(t.getQuestionList());
         }
         //distinct
         return new ArrayList<>(questions);

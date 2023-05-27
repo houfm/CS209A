@@ -39,7 +39,7 @@ public class Answer {
     private Long questionId;
 
     @ManyToOne
-    @JoinColumn(name = "question_id")
+    @JoinColumn(name = "question_id", insertable = false, updatable = false)
     private Question question;
 
     @Column(name = "body")

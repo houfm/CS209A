@@ -35,4 +35,23 @@ public class QuestionService {
         //distinct
         return new ArrayList<>(questions);
     }
+
+    public double getNoAnswerQuestionPercentage() {
+        long noAnswerNum =  questionRepository.countByAnswerCount(0);
+        long totalNum = questionRepository.count();
+        double percentage = (double) noAnswerNum / totalNum;
+        return percentage;
+    }
+
+    public double getAvgAnswerCount() {
+       return questionRepository.findAvgAnswerCount();
+    }
+
+    public int getMaxAnswerCount() {
+        return questionRepository.findMaxAnswerCount();
+    }
+
+    public List<Object[]> getQuestionCountGroupByAnswerCount() {
+        return questionRepository.findQuestionCountGroupByAnswerCount();
+    }
 }

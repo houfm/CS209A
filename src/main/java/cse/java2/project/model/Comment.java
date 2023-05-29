@@ -1,5 +1,6 @@
 package cse.java2.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Comment {
     private Long postId;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "post_id", insertable = false, updatable = false)
     private Answer answer;
     @Column(name = "body")

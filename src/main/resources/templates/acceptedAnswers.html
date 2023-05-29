@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AcceptedAnswers</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<div style="text-align: center;">
+    <div id="pieChart1" style="width: 600px; height: 400px; margin: 0 auto;"></div>
+    <div id="pieChart2" style="width: 600px; height: 400px; margin: 0 auto;"></div>
+</div>
+<div style="text-align: center;">
+    <div id="lineChart1" style="width: 1400px; height: 400px; margin: 0 auto;"></div>
+    <div id="lineChart2" style="width: 1400px; height: 400px; margin: 0 auto;"></div>
+</div>
+<div style="text-align: center; margin-top: 20px;">
+    <button onclick="goBack()" style="display: block; margin: 0 auto;">返回</button>
+</div>
+
+
+<script th:inline="javascript">
+    // 饼图1数据
+    var pieData1 = /*[[${pieData1}]]*/ [];
+
+    // 折线图数据
+    var lineData1 = /*[[${lineData1}]]*/ [];
+    var lineData2 = /*[[${lineData2}]]*/ [];
+    // var lineDatax = /*[[${lineDatax}]]*/ [];
+    // var lineDatay = /*[[${lineDatay}]]*/ [];
+
+    // 饼图2数据
+    var pieData2 = /*[[${pieData2}]]*/ [];
+
+    // 饼图1配置
+    var pieOption1 = {
+        title: {
+            text: '有AcceptedAnswer的问题的比例',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left'
+        },
+        series: [
+            {
+                name: 'Access From',
+                type: 'pie',
+                radius: '50%',
+                data: pieData1,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+
+    var timeData = [];
+    var startTime = 1; // 初始时间间隔为1秒，以秒为单位
+    var endTime = 2*24 * 60 * 60; // 一周的时间间隔，以秒为单位
+    var currentTime = startTime;
+    var timeInterval = startTime;
+    while (timeInterval * 1.5 + currentTime < endTime) {
+        timeData.push(currentTime);
+        timeInterval *= 1.5; // 时间间隔逐渐增大
+        currentTime += timeInterval;
+    }
+
+    // 折线图配置
+
+    var lineOption1 = {
+        title: {
+            subtext: '前12小时',
+            text: '问题解决的间隔分布',
+            left: 'center'
+        },
+
+        tooltip: {
+            trigger: 'axis',
+            formatter: function (params) {
+                var value = params[0].data[0];
+                var formattedValue = '';
+
+                if (value < 60) {
+                    formattedValue = value + 's';
+                } else if (value < 3600) {
+                    formattedValue = Math.floor(value / 60 * 100) / 100 + 'min';
+                } else if (value < 86400) {
+                    formattedValue = Math.floor(value / 3600 * 100) / 100 + 'h';
+                } else if(value < 604800){
+                    formattedValue = Math.floor(value / 86400 * 100) / 100 + 'd';
+                }else{
+                    formattedValue = Math.floor(value / 86400 * 100) / 100 + 'd+';
+                }
+
+                return '时间：' + formattedValue + '<br/>回答数量：' + params[0].data[1]+'<br/>回答比例：'+(params[0].data[1]/340*100).toFixed(2)+"%";
+            }
+        },
+        xAxis: {
+            type: 'value',
+            // min: 1,  // 横轴最小值为 1 秒对应的毫秒数
+            // max: 86400,  // 横轴最大值为 1 周对应的毫秒数
+            axisLabel: {
+                interval:0,
+                rotate: 45, // 设置刻度标签旋转角度，以避免文字重叠
+                formatter: function (value) {
+                    // 将秒转换为对应的时间格式，例如 min,h
+                    if (value < 60) {
+                        return value + 's';
+                    } else if (value < 3600) {
+                        return Math.floor(value / 60 * 100) / 100 + 'min';
+                    } else if (value < 86400) {
+                        return Math.floor(value / 3600 * 100) / 100 + 'h';
+                    } else {
+                        return Math.floor(value / 86400 * 100) / 100 + 'd';
+                    }
+
+                }
+            },
+            axisTick: {
+                alignWithLabel: true
+            },
+            splitLine: {
+                show: true
+            },
+            name: '时间间隔',
+            data: timeData,
+        },
+        yAxis: {
+            name: '回答个数',
+            type: 'value'
+        },
+        series: [
+            {
+                symbol: "none",
+                data: lineData1,
+                type: 'line',
+                smooth: true,
+            }
+        ]
+    };
+
+
+    var lineOption2= {
+        title: {
+            subtext: '全程',
+            text: '问题解决的间隔分布',
+            left: 'center'
+        },
+
+        tooltip: {
+            trigger: 'axis',
+            formatter: function (params) {
+                var value = params[0].data[0];
+                var formattedValue = '';
+
+                if (value < 60) {
+                    formattedValue = value + 's';
+                } else if (value < 3600) {
+                    formattedValue = Math.floor(value / 60 * 100) / 100 + 'min';
+                } else if (value < 86400) {
+                    formattedValue = Math.floor(value / 3600 * 100) / 100 + 'h';
+                } else if(value < 604800){
+                    formattedValue = Math.floor(value / 86400 * 100) / 100 + 'd';
+                }else{
+                    formattedValue = Math.floor(value / 86400 * 100) / 100 + 'd+';
+                }
+
+                return '时间：' + formattedValue + '<br/>回答数量：' + params[0].data[1]+'<br/>回答比例：'+(params[0].data[1]/340*100).toFixed(2)+"%";
+            }
+        },
+        xAxis: {
+            type: 'value',
+            // min: 1,  // 横轴最小值为 1 秒对应的毫秒数
+            // max: 86400,  // 横轴最大值为 1 周对应的毫秒数
+            axisLabel: {
+                interval:0,
+                rotate: 45, // 设置刻度标签旋转角度，以避免文字重叠
+                formatter: function (value) {
+                    // 将秒转换为对应的时间格式，例如 min,h
+                    if (value < 60) {
+                        return value + 's';
+                    } else if (value < 3600) {
+                        return Math.floor(value / 60 * 100) / 100 + 'min';
+                    } else if (value < 86400) {
+                        return Math.floor(value / 3600 * 100) / 100 + 'h';
+                    } else {
+                        return Math.floor(value / 86400 * 100) / 100 + 'd';
+                    }
+
+                }
+            },
+            axisTick: {
+                alignWithLabel: true
+            },
+            splitLine: {
+                show: true
+            },
+            name: '时间间隔',
+            data: timeData,
+        },
+        yAxis: {
+            name: '回答个数',
+            type: 'value'
+        },
+        series: [
+            {
+                symbol: "none",
+                data: lineData2,
+                type: 'line',
+                smooth: true,
+            }
+        ]
+    };
+
+    // 饼图2配置
+    var pieOption2 = {
+        title: {
+            text: '不接受答案Upvote高于接受答案的比例',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left'
+        },
+        series: [
+            {
+                name: 'Access From',
+                type: 'pie',
+                radius: '50%',
+                data: pieData2,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+
+    // 创建图表实例
+    var pieChart1 = echarts.init(document.getElementById('pieChart1'));
+    var lineChart1 = echarts.init(document.getElementById('lineChart1'));
+    var lineChart2 = echarts.init(document.getElementById('lineChart2'));
+    var pieChart2 = echarts.init(document.getElementById('pieChart2'));
+
+    // 渲染图表
+    pieChart1.setOption(pieOption1);
+    lineChart1.setOption(lineOption1);
+    lineChart2.setOption(lineOption2);
+    pieChart2.setOption(pieOption2);
+
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

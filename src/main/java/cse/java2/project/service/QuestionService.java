@@ -22,14 +22,14 @@ public class QuestionService {
         return questionRepository.findAll();
     }
 
-    public Map<Long,Integer> getAllQuestionUsers() {
+    public Map<Long, Integer> getAllQuestionUsers() {
         List<Question> questionList = getAllQuestions();
-        Map<Long,Integer> userList = new HashMap<>();
+        Map<Long, Integer> userList = new HashMap<>();
         for (Question question : questionList) {
-            if(userList.containsKey(question.getAccountId())) {
-                userList.put(question.getAccountId(),userList.get(question.getAccountId())+1);
+            if (userList.containsKey(question.getAccountId())) {
+                userList.put(question.getAccountId(), userList.get(question.getAccountId()) + 1);
             } else {
-                userList.put(question.getAccountId(),1);
+                userList.put(question.getAccountId(), 1);
             }
         }
         return userList;
@@ -44,21 +44,22 @@ public class QuestionService {
         Set<Question> questions = new HashSet<>();
         for (String tag : tags) {
             Tag t = tagRepository.findByTag(tag);
-            questions.addAll(t.getQuestionList());
+            if (t != null)
+                questions.addAll(t.getQuestionList());
         }
         //distinct
         return new ArrayList<>(questions);
     }
 
     public double getNoAnswerQuestionPercentage() {
-        long noAnswerNum =  questionRepository.countByAnswerCount(0);
+        long noAnswerNum = questionRepository.countByAnswerCount(0);
         long totalNum = questionRepository.count();
         double percentage = (double) noAnswerNum / totalNum;
         return percentage;
     }
 
     public double getAvgAnswerCount() {
-       return questionRepository.findAvgAnswerCount();
+        return questionRepository.findAvgAnswerCount();
     }
 
     public int getMaxAnswerCount() {
@@ -90,7 +91,7 @@ public class QuestionService {
     public List<Integer> getAllQuestionsUserCount() {
         List<Question> questionList = questionRepository.findAll();
         List<Integer> userNum = new ArrayList<>();
-        for(Question question : questionList) {
+        for (Question question : questionList) {
             userNum.add(question.getUserCount());
         }
         return userNum;

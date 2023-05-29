@@ -1,5 +1,6 @@
 package cse.java2.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -49,6 +50,7 @@ public class Question {
     @Column(name = "body")
     private String body;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<Answer> answerList;
 

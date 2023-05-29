@@ -31,4 +31,7 @@ public class CommentService {
         return userList;
     }
 
+    public Optional<Comment> getComment(Long commentId) {
+        return commentRepository.findById(commentId);
+    }
 }

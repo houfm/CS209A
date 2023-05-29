@@ -17,7 +17,7 @@ public class NumberOfAnswersController {
         this.questionService = questionService;
     }
 
-    @RequestMapping("/number-of-answers")
+    @RequestMapping("/numberOfAnswers")
     public String numberOfAnswers(Model model) {
         // no ans percentage
         double noAnsPercentage = questionService.getNoAnswerQuestionPercentage();
@@ -32,6 +32,6 @@ public class NumberOfAnswersController {
         // distribution
         List<Object[]> distribution = questionService.getQuestionCountGroupByAnswerCount();
         model.addAttribute("distribution", distribution);
-        return "number-of-answers";
+        return "numberOfAnswers";
     }
 }

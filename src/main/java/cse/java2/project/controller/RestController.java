@@ -1,8 +1,10 @@
 package cse.java2.project.controller;
 
 import cse.java2.project.model.Answer;
+import cse.java2.project.model.Comment;
 import cse.java2.project.model.Question;
 import cse.java2.project.service.AnswerService;
+import cse.java2.project.service.CommentService;
 import cse.java2.project.service.QuestionService;
 import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +23,14 @@ public class RestController {
     private final QuestionService questionService;
     private final AnswerService answerService;
 
+    private final CommentService commentService;
+
     public RestController(QuestionService questionService,
-                          AnswerService answerService) {
+                          AnswerService answerService,
+                          CommentService commentService) {
         this.questionService = questionService;
         this.answerService = answerService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/questions")
@@ -40,7 +46,7 @@ public class RestController {
     }
 
     @GetMapping("/questions/{questionId}")
-    public ResponseEntity<?> getQuestions(@PathVariable("questionId") Long questionId) {
+    public ResponseEntity<?> getQuestionrById(@PathVariable("questionId") Long questionId) {
         Optional<Question> question = questionService.getQuestion(questionId);
         if (question.isPresent()) {
             return ResponseEntity.ok(question.get());
@@ -59,11 +65,32 @@ public class RestController {
         }
     }
 
+    @GetMapping("/answers/{answerId}")
+    public ResponseEntity<?> getAnswerById(@PathVariable("answerId") Long answerId) {
+        Optional<Answer> answer = answerService.getAnswer(answerId);
+        if (answer.isPresent()) {
+            return ResponseEntity.ok(answer.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
     @GetMapping("/comments")
     public ResponseEntity<?> getComments(@RequestParam("answerId") Long answerId) {
         Optional<Answer> answer = answerService.getAnswer(answerId);
         if (answer.isPresent()) {
             return ResponseEntity.ok(answer.get().getCommentList());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/comments/{commentId}")
+    public ResponseEntity<?> getCommentById(@PathVariable("commentId") Long commentId) {
+        Optional<Comment> comment = commentService.getComment(commentId);
+        if (comment.isPresent()) {
+            return ResponseEntity.ok(comment.get());
         } else {
             return ResponseEntity.notFound().build();
         }

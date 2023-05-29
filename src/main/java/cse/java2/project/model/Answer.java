@@ -38,6 +38,7 @@ public class Answer {
     private Long questionId;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "question_id", insertable = false, updatable = false)
     private Question question;
 

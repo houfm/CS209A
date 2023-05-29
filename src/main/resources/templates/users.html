@@ -1,10 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2/dist/echarts-wordcloud.min.js"></script>
 </head>
 <body>
+<div style="text-align: center;">
+    <div id="pieChart1" style="width: 500px; height: 400px; margin: 0 auto;"></div>
+    <div id="pieChart2" style="width: 500px; height: 400px; margin: 0 auto;"></div>
+</div>
 
+<div style="text-align: center;">
+    <div id="wordcloud" style="width: 800px; height: 600px; margin: 0 auto;"></div>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <button onclick="goBack()" style="display: block; margin: 0 auto;">返回</button>
+</div>
+
+<script th:inline="javascript">
+    // 饼图1数据
+    var pieData1 = /*[[${pieData1}]]*/ [];
+    var pieData2 = /*[[${pieData2}]]*/ [];
+
+    var wordcloudData = /*[[${wordcloudData}]]*/ [];
+
+    // 饼图1配置
+    var pieOption1 = {
+        title: {
+            text: '同一问题下用户分布',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: function (params) {
+                return params.marker + params.name + ': ' + params.value + '人' + "<br>" + params.marker + '占比: ' + params.percent + '%';
+            }
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left'
+        },
+        series: [
+            {
+                type: 'pie',
+                radius: '50%',
+                data: pieData1,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+
+    // 饼图1配置
+    var pieOption2 = {
+        title: {
+            text: '问答者评论者分布',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: function (params) {
+                return params.marker + params.name + ': ' + params.value + "<br>" + params.percent + '%';
+            }
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left'
+        },
+        series: [
+            {
+                type: 'pie',
+                radius: '50%',
+                data: pieData2,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+
+    // 词云图配置
+    var wordcloudOption = {
+        title: {
+            text: '最活跃的用户',
+            textStyle: {
+                fontStyle: 'oblique',
+                left: 'center',
+                fontSize: 20,
+                color: '#4cc9f0'
+            },
+            left: 'center'
+        },
+        tooltip: {},
+        series: [{
+            type: 'wordCloud',
+            sizeRange: [12, 55],
+            rotationRange: [-45, 45],
+            shape: 'square',
+            //maskImage: maskImage,
+            width: '80%',
+            height: '80%',
+            textStyle: {
+                fontWeight: 'bold',
+                color: function () {
+                    return 'rgb(' + [
+                        Math.round(Math.random() * 160),
+                        Math.round(Math.random() * 160),
+                        Math.round(Math.random() * 160)
+                    ].join(',') + ')';
+                }
+            },
+            emphasis: {
+                textStyle: {
+                    shadowBlur: 15,
+                    shadowColor: '#333'
+                }
+            },
+            data: wordcloudData,
+        }]
+    };
+
+    // 创建图表实例
+    var pieChart1 = echarts.init(document.getElementById('pieChart1'));
+    var pieChart2 = echarts.init(document.getElementById('pieChart2'));
+    var wordcloudChart = echarts.init(document.getElementById('wordcloud'));
+
+    //渲染图表
+    pieChart1.setOption(pieOption1);
+    pieChart2.setOption(pieOption2);
+    wordcloudChart.setOption(wordcloudOption);
+
+    function goBack() {
+        window.history.back();
+    }
+
+</script>
 </body>
 </html>

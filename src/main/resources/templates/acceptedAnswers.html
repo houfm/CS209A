@@ -8,8 +8,8 @@
 <body>
 
 <div style="text-align: center;">
-    <div id="pieChart1" style="width: 600px; height: 400px; margin: 0 auto;"></div>
-    <div id="pieChart2" style="width: 600px; height: 400px; margin: 0 auto;"></div>
+    <div id="pieChart1" style="width: 500px; height: 400px; margin: 0 auto;"></div>
+    <div id="pieChart2" style="width: 500px; height: 400px; margin: 0 auto;"></div>
 </div>
 <div style="text-align: center;">
     <div id="lineChart1" style="width: 1400px; height: 400px; margin: 0 auto;"></div>
@@ -85,8 +85,8 @@
         tooltip: {
             trigger: 'axis',
             formatter: function (params) {
-                var value = params[0].data[0];
-                var formattedValue = '';
+                let value = params[0].data[0];
+                let formattedValue = '';
 
                 if (value < 60) {
                     formattedValue = value + 's';
@@ -94,7 +94,7 @@
                     formattedValue = Math.floor(value / 60 * 100) / 100 + 'min';
                 } else if (value < 86400) {
                     formattedValue = Math.floor(value / 3600 * 100) / 100 + 'h';
-                } else if(value < 604800){
+                } else if(value < 1209600){
                     formattedValue = Math.floor(value / 86400 * 100) / 100 + 'd';
                 }else{
                     formattedValue = Math.floor(value / 86400 * 100) / 100 + 'd+';
@@ -167,7 +167,7 @@
                     formattedValue = Math.floor(value / 60 * 100) / 100 + 'min';
                 } else if (value < 86400) {
                     formattedValue = Math.floor(value / 3600 * 100) / 100 + 'h';
-                } else if(value < 604800){
+                } else if(value < 1209600){
                     formattedValue = Math.floor(value / 86400 * 100) / 100 + 'd';
                 }else{
                     formattedValue = Math.floor(value / 86400 * 100) / 100 + 'd+';

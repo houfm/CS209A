@@ -6,6 +6,7 @@ import cse.java2.project.model.Question;
 import cse.java2.project.service.AnswerService;
 import cse.java2.project.service.CommentService;
 import cse.java2.project.service.QuestionService;
+import cse.java2.project.service.TagService;
 import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,12 +26,16 @@ public class RestController {
 
     private final CommentService commentService;
 
+    private final TagService tagService;
+
     public RestController(QuestionService questionService,
                           AnswerService answerService,
-                          CommentService commentService) {
+                          CommentService commentService,
+                          TagService tagService) {
         this.questionService = questionService;
         this.answerService = answerService;
         this.commentService = commentService;
+        this.tagService = tagService;
     }
 
     @GetMapping("/questions")
@@ -94,5 +99,11 @@ public class RestController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/top40tag")
+    public ResponseEntity<?> getTop40Tag() {
+        List<Pair<String, Integer>> top40Tag = tagService.getTop40FrequencyTags();
+        return ResponseEntity.ok(top40Tag);
     }
 }

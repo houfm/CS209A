@@ -1,10 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>NumberOfAnswers</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
 </head>
 <body>
+<div style="text-align: center;">
+    <div id="pieChart1" style="width: 500px; height: 400px; margin: 0 auto;"></div>
+    <p th:text="'每个问题平均获得答案: '+ ${avgAnswerNum}">AVG</p>
+    <p th:text="'一个问题最多获得答案: '+ ${maxAnswerNum}">MAX</p>
+</div>
+<div style="text-align: center;">
+    <div id="lineChart1" style="width: 1200px; height: 400px; margin: 0 auto;"></div>
+</div>
+<div style="text-align: center; margin-top: 20px;">
+    <button onclick="goBack()" style="display: block; margin: 0 auto;">返回</button>
+</div>
 
+<script th:inline="javascript">
+    // 饼图1数据
+    var pieData1 = /*[[${pieData1}]]*/ [];
+
+    // 柱形图数据
+    var Datax1 = /*[[${Datax3}]]*/ [];
+    var Datay1 = /*[[${Datay3}]]*/ [];
+
+    // 饼图1配置
+    var pieOption1 = {
+        title: {
+            text: '没有答案的问题比例',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left'
+        },
+        series: [
+            {
+                type: 'pie',
+                radius: '50%',
+                data: pieData1,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+
+    // 折线图配置
+
+    var lineOption1 = {
+        grid: {
+            right: '10%'
+        },
+        title: {
+            text: '答案分布',
+            left: 'center'
+        },
+
+        tooltip: {
+            trigger: 'axis',
+        },
+        xAxis: {
+            type: 'category',
+            name: '答案数量',
+            data: Datax1
+        },
+        yAxis: {
+            name: '问题数量',
+            type: 'value'
+        },
+        series: [
+            {
+                data: Datay1,
+                type: 'bar'
+            }
+        ]
+    };
+
+    // 创建图表实例
+    var pieChart1 = echarts.init(document.getElementById('pieChart1'));
+    var lineChart1 = echarts.init(document.getElementById('lineChart1'));
+
+
+    // 渲染图表
+    pieChart1.setOption(pieOption1);
+    lineChart1.setOption(lineOption1);
+
+    function goBack() {
+        window.history.back();
+    }
+
+</script>
 </body>
 </html>

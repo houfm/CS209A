@@ -59,12 +59,30 @@ public class Question {
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tagList;
 
+    @Transient
+    public int getUserCount() {
+        int count = 1;
+        for(Answer answer : answerList) {
+            count+= answer.getUserCount(accountId);
+        }
+        return count;
+    }
+
+    @Transient
+    public int getTotalScore() {
+        int totalScore = score;
+        for(Answer answer : answerList) {
+            totalScore += answer.getScore();
+        }
+        return totalScore;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Question question = (Question) o;
-        return Objects.equals(questionId, question.questionId) && score == question.score && answerCount == question.answerCount && viewCount == question.viewCount && accountId == question.accountId && Objects.equals(link, question.link) && Objects.equals(contentLicense, question.contentLicense) && Objects.equals(title, question.title) && Objects.equals(lastActivityDate, question.lastActivityDate) && Objects.equals(lastEditDate, question.lastEditDate) && Objects.equals(creationDate, question.creationDate) && Objects.equals(body, question.body);
+        return Objects.equals(questionId, question.questionId) && score == question.score && answerCount == question.answerCount && viewCount == question.viewCount && Objects.equals(accountId, question.accountId) && Objects.equals(link, question.link) && Objects.equals(contentLicense, question.contentLicense) && Objects.equals(title, question.title) && Objects.equals(lastActivityDate, question.lastActivityDate) && Objects.equals(lastEditDate, question.lastEditDate) && Objects.equals(creationDate, question.creationDate) && Objects.equals(body, question.body);
     }
 
     @Override

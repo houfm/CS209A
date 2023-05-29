@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AnswerService {
@@ -26,14 +26,14 @@ public class AnswerService {
     }
 
     public double getQuestionGetAcceptedAnswerPercentage() {
-        long acceptedNum =  answerRepository.countByAccepted(true);
+        long acceptedNum =  answerRepository.countByIsAccepted(true);
         long totalQuestionNum = answerRepository.count();
         double percentage = (double) acceptedNum / totalQuestionNum;
         return percentage;
     }
 
     public int[] getTimeGapDistribution() {
-        List<Answer> answers = answerRepository.findAnswerByAccepted(true);
+        List<Answer> answers = answerRepository.findAnswerByIsAccepted(true);
         int cnt = answers.size();
         int[] timeGap = new int[8];
         // 0 0, 0.25h
@@ -44,8 +44,7 @@ public class AnswerService {
         // 5 6, 12h
         // 6 12, 24h
         // 7 24+
-        for (int i = 0; i < cnt; i++) {
-            Answer answer = answers.get(i);
+        for (Answer answer : answers) {
             long questionId = answer.getQuestionId();
             Question question = questionRepository.findQuestionByQuestionId(questionId);
             Timestamp questionTime = question.getCreationDate();
@@ -56,7 +55,7 @@ public class AnswerService {
             // 30 min = 1800000 ms
             // 1 h = 3600000 ms
             long gap = (answerTime.getTime() - questionTime.getTime()) / 900000;
-            if (gap ==0) {
+            if (gap == 0) {
                 timeGap[0]++;
             } else if (gap == 1) {
                 timeGap[1]++;
@@ -80,7 +79,7 @@ public class AnswerService {
     public double getPercentageOfQuestionWithMoreVoteOnNonAcceptedAnswer() {
         long totalQuestionNum = questionRepository.count();
         long moreVoteNum = 0;
-        List<Answer> acceptedAnswers = answerRepository.findAnswerByAccepted(true);
+        List<Answer> acceptedAnswers = answerRepository.findAnswerByIsAccepted(true);
         for (Answer answer : acceptedAnswers) {
             long questionId = answer.getQuestionId();
             int acceptedAnswerVote = answer.getScore();
@@ -96,5 +95,22 @@ public class AnswerService {
             }
         }
         return (double) moreVoteNum / totalQuestionNum;
+    }
+
+    public List<Answer> getAllAnswers() {
+        return answerRepository.findAll();
+    }
+
+    public Map<Long,Integer> getAllAnswerUsers() {
+        List<Answer> answerList = getAllAnswers();
+        Map<Long,Integer> userList = new HashMap<>();
+        for (Answer answer : answerList) {
+            if(userList.containsKey(answer.getAccountId())) {
+                userList.put(answer.getAccountId(),userList.get(answer.getAccountId())+1);
+            } else {
+                userList.put(answer.getAccountId(),1);
+            }
+        }
+        return userList;
     }
 }

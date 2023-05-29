@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +33,7 @@ public class RestController {
         if(tags.size() == 0) {
             return ResponseEntity.badRequest().build();
         }
-        List<Question> questions = questionService.getQuestionsByTags(tags);
+        List<Question> questions = questionService.getQuestionUnionByTags(tags);
         int sum = questions.size();
         Pair<Integer, List<Question>> pair = Pair.of(sum, questions);
         return ResponseEntity.ok(pair);

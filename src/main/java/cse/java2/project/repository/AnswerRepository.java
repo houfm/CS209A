@@ -9,23 +9,23 @@ import java.util.List;
 
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
-    long countByIsAccepted(boolean accept);
+  long countByIsAccepted(boolean accept);
 
-    List<Answer> findAnswerByIsAccepted(boolean accept);
+  List<Answer> findAnswerByIsAccepted(boolean accept);
 
-    List<Long> findQuestionIdByIsAccepted(boolean accept);
+  List<Long> findQuestionIdByIsAccepted(boolean accept);
 
-    long countByQuestionId(long questionId);
+  long countByQuestionId(long questionId);
 
-    List<Answer> findAnswerByQuestionIdAndIsAccepted(long questionId, boolean accept);
+  List<Answer> findAnswerByQuestionIdAndIsAccepted(long questionId, boolean accept);
 
-    int findScoreByAnswerId(long answerId);
+  int findScoreByAnswerId(long answerId);
 
-    Answer findByAnswerId(long answerId);
+  Answer findByAnswerId(long answerId);
 
 
-    List<Answer> findAnswersByQuestionId(long questionId);
+  List<Answer> findAnswersByQuestionId(long questionId);
 
-    @Query(value = "SELECT (regexp_match(q.body, 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+(?=[^a-zA-Z0-9])'))[1] FROM answer q WHERE q.body ~ 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+'", nativeQuery = true)
-    List<String> findJavaApi();
+  @Query(value = "SELECT (regexp_match(q.body, 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+(?=[^a-zA-Z0-9])'))[1] FROM answer q WHERE q.body ~ 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+'", nativeQuery = true)
+  List<String> findJavaApi();
 }

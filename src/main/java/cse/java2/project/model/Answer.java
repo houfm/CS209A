@@ -11,68 +11,68 @@ import java.util.*;
 @Table(name = "answer")
 @Data
 public class Answer {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "answer_id")
-    private Long answerId;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Id
+  @Column(name = "answer_id")
+  private Long answerId;
 
-    @Column(name = "last_activity_date")
-    private Timestamp lastActivityDate;
+  @Column(name = "last_activity_date")
+  private Timestamp lastActivityDate;
 
-    @Column(name = "last_edit_date")
-    private Timestamp lastEditDate;
+  @Column(name = "last_edit_date")
+  private Timestamp lastEditDate;
 
-    @Column(name = "creation_date")
-    private Timestamp creationDate;
+  @Column(name = "creation_date")
+  private Timestamp creationDate;
 
-    @Column(name = "score")
-    private int score;
+  @Column(name = "score")
+  private int score;
 
-    @Column(name = "is_accepted")
-    private boolean isAccepted;
+  @Column(name = "is_accepted")
+  private boolean isAccepted;
 
-    @Column(name = "content_license")
-    private String contentLicense;
+  @Column(name = "content_license")
+  private String contentLicense;
 
-    @Column(name = "question_id")
-    private Long questionId;
+  @Column(name = "question_id")
+  private Long questionId;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "question_id", insertable = false, updatable = false)
-    private Question question;
+  @ManyToOne
+  @JsonIgnore
+  @JoinColumn(name = "question_id", insertable = false, updatable = false)
+  private Question question;
 
-    @Column(name = "body")
-    private String body;
+  @Column(name = "body")
+  private String body;
 
-    @Column(name = "account_id")
-    private Long accountId;
+  @Column(name = "account_id")
+  private Long accountId;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Comment> commentList;
+  @JsonIgnore
+  @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+  private List<Comment> commentList;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Answer answer = (Answer) o;
-        return Objects.equals(answerId, answer.answerId) && score == answer.score && isAccepted == answer.isAccepted && Objects.equals(questionId, answer.questionId) && Objects.equals(accountId, answer.accountId) && Objects.equals(lastActivityDate, answer.lastActivityDate) && Objects.equals(lastEditDate, answer.lastEditDate) && Objects.equals(creationDate, answer.creationDate) && Objects.equals(contentLicense, answer.contentLicense) && Objects.equals(body, answer.body);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Answer answer = (Answer) o;
+    return Objects.equals(answerId, answer.answerId) && score == answer.score && isAccepted == answer.isAccepted && Objects.equals(questionId, answer.questionId) && Objects.equals(accountId, answer.accountId) && Objects.equals(lastActivityDate, answer.lastActivityDate) && Objects.equals(lastEditDate, answer.lastEditDate) && Objects.equals(creationDate, answer.creationDate) && Objects.equals(contentLicense, answer.contentLicense) && Objects.equals(body, answer.body);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(answerId, lastActivityDate, lastEditDate, creationDate, score, isAccepted, contentLicense, questionId, body, accountId);
+  }
+
+  @Transient
+  public int getUserCount(Long questionUserId) {
+    Set<Long> UserMap = new HashSet<>();
+    UserMap.add(questionUserId);
+    UserMap.add(accountId);
+    for (Comment comment : commentList) {
+      UserMap.add(comment.getAccountId());
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(answerId, lastActivityDate, lastEditDate, creationDate, score, isAccepted, contentLicense, questionId, body, accountId);
-    }
-
-    @Transient
-    public int getUserCount(Long questionUserId) {
-        Set<Long> UserMap = new HashSet<>();
-        UserMap.add(questionUserId);
-        UserMap.add(accountId);
-        for (Comment comment : commentList) {
-            UserMap.add(comment.getAccountId());
-        }
-        return UserMap.size() - 1;
-    }
+    return UserMap.size() - 1;
+  }
 }

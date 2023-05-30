@@ -12,50 +12,50 @@ import java.util.*;
 
 @Service
 public class AnswerService {
-    private final AnswerRepository answerRepository;
-    private final QuestionRepository questionRepository;
+  private final AnswerRepository answerRepository;
+  private final QuestionRepository questionRepository;
 
-    public AnswerService(AnswerRepository answerRepository,
-                         QuestionRepository questionRepository) {
-        this.answerRepository = answerRepository;
-        this.questionRepository = questionRepository;
-    }
+  public AnswerService(AnswerRepository answerRepository,
+                       QuestionRepository questionRepository) {
+    this.answerRepository = answerRepository;
+    this.questionRepository = questionRepository;
+  }
 
-    public Optional<Answer> getAnswer(Long answerId) {
-        return answerRepository.findById(answerId);
-    }
+  public Optional<Answer> getAnswer(Long answerId) {
+    return answerRepository.findById(answerId);
+  }
 
-    public double getQuestionGetAcceptedAnswerPercentage() {
-        long acceptedNum = answerRepository.countByIsAccepted(true);
-        long totalQuestionNum = answerRepository.count();
-        double percentage = (double) acceptedNum / totalQuestionNum;
-        return percentage;
-    }
+  public double getQuestionGetAcceptedAnswerPercentage() {
+    long acceptedNum = answerRepository.countByIsAccepted(true);
+    long totalQuestionNum = answerRepository.count();
+    double percentage = (double) acceptedNum / totalQuestionNum;
+    return percentage;
+  }
 
-    public Map<Long, Integer> getTimeGapDistribution() {
-        List<Answer> answers = answerRepository.findAnswerByIsAccepted(true);
-        int cnt = answers.size();
-        Map<Long, Integer> timeMap = new HashMap<>();
-        for (Answer answer : answers) {
-            long questionId = answer.getQuestionId();
-            Question question = questionRepository.findQuestionByQuestionId(questionId);
-            Timestamp questionTime = question.getCreationDate();
-            Timestamp answerTime = answer.getCreationDate();
-            long gap = answerTime.getTime() - questionTime.getTime();
-            gap = gap / 1000L;
-            if (timeMap.containsKey(gap)) {
-                timeMap.put(gap, timeMap.get(gap) + 1);
-            } else {
-                if (gap >= 1209601L) {
-                    timeMap.put(1209601L, timeMap.getOrDefault(1209601L, 0) + 1);
-                } else {
-                    timeMap.put(gap, 1);
-                }
-
-            }
+  public Map<Long, Integer> getTimeGapDistribution() {
+    List<Answer> answers = answerRepository.findAnswerByIsAccepted(true);
+    int cnt = answers.size();
+    Map<Long, Integer> timeMap = new HashMap<>();
+    for (Answer answer : answers) {
+      long questionId = answer.getQuestionId();
+      Question question = questionRepository.findQuestionByQuestionId(questionId);
+      Timestamp questionTime = question.getCreationDate();
+      Timestamp answerTime = answer.getCreationDate();
+      long gap = answerTime.getTime() - questionTime.getTime();
+      gap = gap / 1000L;
+      if (timeMap.containsKey(gap)) {
+        timeMap.put(gap, timeMap.get(gap) + 1);
+      } else {
+        if (gap >= 1209601L) {
+          timeMap.put(1209601L, timeMap.getOrDefault(1209601L, 0) + 1);
+        } else {
+          timeMap.put(gap, 1);
         }
 
-        return timeMap;
+      }
+    }
+
+    return timeMap;
 
 //        List<Answer> answers = answerRepository.findAnswerByIsAccepted(true);
 //        int cnt = answers.size();
@@ -98,43 +98,43 @@ public class AnswerService {
 //            }
 //        }
 //        return timeGap;
-    }
+  }
 
-    public double getPercentageOfQuestionWithMoreVoteOnNonAcceptedAnswer() {
-        long totalQuestionNum = questionRepository.count();
-        long moreVoteNum = 0;
-        List<Answer> acceptedAnswers = answerRepository.findAnswerByIsAccepted(true);
-        for (Answer answer : acceptedAnswers) {
-            long questionId = answer.getQuestionId();
-            int acceptedAnswerVote = answer.getScore();
-            int maxVote = acceptedAnswerVote;
-            List<Answer> answers = answerRepository.findAnswersByQuestionId(questionId);
-            for (Answer a : answers) {
-                if (a.getScore() > maxVote) {
-                    maxVote = a.getScore();
-                }
-            }
-            if (maxVote > acceptedAnswerVote) {
-                moreVoteNum++;
-            }
+  public double getPercentageOfQuestionWithMoreVoteOnNonAcceptedAnswer() {
+    long totalQuestionNum = questionRepository.count();
+    long moreVoteNum = 0;
+    List<Answer> acceptedAnswers = answerRepository.findAnswerByIsAccepted(true);
+    for (Answer answer : acceptedAnswers) {
+      long questionId = answer.getQuestionId();
+      int acceptedAnswerVote = answer.getScore();
+      int maxVote = acceptedAnswerVote;
+      List<Answer> answers = answerRepository.findAnswersByQuestionId(questionId);
+      for (Answer a : answers) {
+        if (a.getScore() > maxVote) {
+          maxVote = a.getScore();
         }
-        return (double) moreVoteNum / totalQuestionNum;
+      }
+      if (maxVote > acceptedAnswerVote) {
+        moreVoteNum++;
+      }
     }
+    return (double) moreVoteNum / totalQuestionNum;
+  }
 
-    public List<Answer> getAllAnswers() {
-        return answerRepository.findAll();
-    }
+  public List<Answer> getAllAnswers() {
+    return answerRepository.findAll();
+  }
 
-    public Map<Long, Integer> getAllAnswerUsers() {
-        List<Answer> answerList = getAllAnswers();
-        Map<Long, Integer> userList = new HashMap<>();
-        for (Answer answer : answerList) {
-            if (userList.containsKey(answer.getAccountId())) {
-                userList.put(answer.getAccountId(), userList.get(answer.getAccountId()) + 1);
-            } else {
-                userList.put(answer.getAccountId(), 1);
-            }
-        }
-        return userList;
+  public Map<Long, Integer> getAllAnswerUsers() {
+    List<Answer> answerList = getAllAnswers();
+    Map<Long, Integer> userList = new HashMap<>();
+    for (Answer answer : answerList) {
+      if (userList.containsKey(answer.getAccountId())) {
+        userList.put(answer.getAccountId(), userList.get(answer.getAccountId()) + 1);
+      } else {
+        userList.put(answer.getAccountId(), 1);
+      }
     }
+    return userList;
+  }
 }

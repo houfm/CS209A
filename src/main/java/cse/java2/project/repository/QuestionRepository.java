@@ -9,30 +9,30 @@ import java.util.List;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
-    long countByAnswerCount(int answerCount);
+  long countByAnswerCount(int answerCount);
 
-    long count();
+  long count();
 
-    long countTop1ByAnswerCount(int answerCount);
+  long countTop1ByAnswerCount(int answerCount);
 
-    // find the avg of the answer count
-    long countByAnswerCountGreaterThanEqual(int answerCount);
+  // find the avg of the answer count
+  long countByAnswerCountGreaterThanEqual(int answerCount);
 
-    @Query("SELECT MAX(q.answerCount) FROM Question q")
-    Integer findMaxAnswerCount();
+  @Query("SELECT MAX(q.answerCount) FROM Question q")
+  Integer findMaxAnswerCount();
 
-    @Query("SELECT AVG(q.answerCount) FROM Question q")
-    Double findAvgAnswerCount();
+  @Query("SELECT AVG(q.answerCount) FROM Question q")
+  Double findAvgAnswerCount();
 
-    @Query("SELECT q.answerCount, COUNT(q) FROM Question q GROUP BY q.answerCount")
-    List<Object[]> findQuestionCountGroupByAnswerCount();
+  @Query("SELECT q.answerCount, COUNT(q) FROM Question q GROUP BY q.answerCount")
+  List<Object[]> findQuestionCountGroupByAnswerCount();
 
-    Question findQuestionByQuestionId(long questionId);
+  Question findQuestionByQuestionId(long questionId);
 
-    @Query(value = "SELECT (regexp_match(q.body, 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+(?=[^a-zA-Z0-9])'))[1] FROM Question q WHERE q.body ~ 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+'", nativeQuery = true)
-    List<String> findJavaApi();
+  @Query(value = "SELECT (regexp_match(q.body, 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+(?=[^a-zA-Z0-9])'))[1] FROM Question q WHERE q.body ~ 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+'", nativeQuery = true)
+  List<String> findJavaApi();
 
-    @Query(value = "SELECT (regexp_match(q.title, 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+(?=[^a-zA-Z0-9])'))[1] FROM Question q WHERE q.title ~ 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+'", nativeQuery = true)
-    List<String> findJavaApiTitle();
+  @Query(value = "SELECT (regexp_match(q.title, 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+(?=[^a-zA-Z0-9])'))[1] FROM Question q WHERE q.title ~ 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+'", nativeQuery = true)
+  List<String> findJavaApiTitle();
 
 }

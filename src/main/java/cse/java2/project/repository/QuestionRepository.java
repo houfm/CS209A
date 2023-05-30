@@ -1,7 +1,6 @@
 package cse.java2.project.repository;
 
 import cse.java2.project.model.Question;
-import cse.java2.project.model.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,9 +12,12 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     long countByAnswerCount(int answerCount);
 
     long count();
+
     long countTop1ByAnswerCount(int answerCount);
+
     // find the avg of the answer count
     long countByAnswerCountGreaterThanEqual(int answerCount);
+
     @Query("SELECT MAX(q.answerCount) FROM Question q")
     Integer findMaxAnswerCount();
 
@@ -26,4 +28,11 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     List<Object[]> findQuestionCountGroupByAnswerCount();
 
     Question findQuestionByQuestionId(long questionId);
+
+    @Query(value = "SELECT (regexp_match(q.body, 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+(?=[^a-zA-Z0-9])'))[1] FROM Question q WHERE q.body ~ 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+'", nativeQuery = true)
+    List<String> findJavaApi();
+
+    @Query(value = "SELECT (regexp_match(q.title, 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+(?=[^a-zA-Z0-9])'))[1] FROM Question q WHERE q.title ~ 'java\\.[a-zA-Z0-9]+?\\.[a-zA-Z0-9]+'", nativeQuery = true)
+    List<String> findJavaApiTitle();
+
 }

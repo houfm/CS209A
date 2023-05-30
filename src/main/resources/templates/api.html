@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>API</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2/dist/echarts-wordcloud.min.js"></script>
+</head>
+<body>
+
+<div style="text-align: center;">
+  <div id="wordcloud" style="width: 800px; height: 600px; margin: 0 auto;"></div>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+  <button onclick="goBack()" style="display: block; margin: 0 auto;">返回</button>
+</div>
+
+<script th:inline="javascript">
+  var wordcloudData = /*[[${wordcloudData}]]*/ [];
+
+  // 词云图配置
+  var wordcloudOption = {
+    title: {
+      text: '最热门的Java API',
+      textStyle: {
+        fontStyle: 'oblique',
+        left: 'center',
+        fontSize: 20,
+        color: '#4cc9f0'
+      },
+      left: 'center'
+    },
+    tooltip: {},
+    series: [{
+      type: 'wordCloud',
+      sizeRange: [8, 55],
+      shape: 'square',
+      //maskImage: maskImage,
+      width: '80%',
+      height: '80%',
+      textStyle: {
+        fontWeight: 'bold',
+        color: function () {
+          return 'rgb(' + [
+            Math.round(Math.random() * 160),
+            Math.round(Math.random() * 160),
+            Math.round(Math.random() * 160)
+          ].join(',') + ')';
+        }
+      },
+      emphasis: {
+        textStyle: {
+          shadowBlur: 15,
+          shadowColor: '#333'
+        }
+      },
+      data: wordcloudData,
+    }]
+  };
+
+  // 创建图表实例
+  var wordcloudChart = echarts.init(document.getElementById('wordcloud'));
+
+  //渲染图表
+  wordcloudChart.setOption(wordcloudOption);
+
+  function goBack() {
+    window.history.back();
+  }
+
+</script>
+</body>
+</html>

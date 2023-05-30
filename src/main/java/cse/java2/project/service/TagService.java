@@ -59,7 +59,7 @@ public class TagService {
             pair.add(Pair.of(tag, tag.getViewCnt()));
         }
 
-        pairs= pair.stream()
+        pairs = pair.stream()
                 .sorted((o1, o2) -> o2.getSecond().compareTo(o1.getSecond()))
                 .limit(21)
                 .filter(o -> !o.getFirst().getTag().equals("java"))

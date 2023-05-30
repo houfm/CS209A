@@ -40,8 +40,8 @@ public class RestController {
 
     @GetMapping("/questions")
     public ResponseEntity<?> getQuestions(@RequestParam(value = "tag")
-                                       List<String> tags) {
-        if(tags.size() == 0) {
+                                          List<String> tags) {
+        if (tags.size() == 0) {
             return ResponseEntity.badRequest().build();
         }
         List<Question> questions = questionService.getQuestionUnionByTags(tags);

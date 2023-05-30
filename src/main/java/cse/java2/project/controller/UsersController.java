@@ -30,27 +30,27 @@ public class UsersController {
         //1
         List<Integer> userNum = questionService.getAllQuestionsUserCount();
         List<Integer> userNumByInterval = new ArrayList<>();
-        for(int i=1;i<11;i++){
+        for (int i = 1; i < 11; i++) {
             userNumByInterval.add(questionService.getUserNumByInterval(userNum, i, i));
         }
         userNumByInterval.add(questionService.getUserNumByInterval(userNum, 11, 100));
         userNumByInterval.add(questionService.getUserNumByInterval(userNum, 101, 1000));
 
         List<String> xData1 = new ArrayList<>();
-        for(int i=1;i<11;i++){
-            xData1.add(i+"");
+        for (int i = 1; i < 11; i++) {
+            xData1.add(i + "");
         }
         xData1.add("11-100");
         xData1.add("101-1000");
         List<Integer> yData1 = userNumByInterval;
-        List<Map<String,Object>> Data1= new ArrayList<>();
-        for(int i=0;i<xData1.size();i++){
-            Map<String,Object> map=new HashMap<>();
-            map.put("name",xData1.get(i));
-            map.put("value",yData1.get(i));
+        List<Map<String, Object>> Data1 = new ArrayList<>();
+        for (int i = 0; i < xData1.size(); i++) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", xData1.get(i));
+            map.put("value", yData1.get(i));
             Data1.add(map);
         }
-        model.addAttribute("pieData1",Data1);
+        model.addAttribute("pieData1", Data1);
 
         //2
         Map<Long, Integer> commentUserList = commentService.getAllCommentUsers();
@@ -61,14 +61,14 @@ public class UsersController {
         List<Integer> yData2 = new ArrayList<>();
         yData2.add(commentUserList.size());
         yData2.add(answerUserList.size());
-        List<Map<String,Object>> Data2= new ArrayList<>();
+        List<Map<String, Object>> Data2 = new ArrayList<>();
         for (int i = 0; i < xData2.size(); i++) {
-            Map<String,Object> map=new HashMap<>();
-            map.put("name",xData2.get(i));
-            map.put("value",yData2.get(i));
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", xData2.get(i));
+            map.put("value", yData2.get(i));
             Data2.add(map);
         }
-        model.addAttribute("pieData2",Data2);
+        model.addAttribute("pieData2", Data2);
 
 
         //3
@@ -79,8 +79,8 @@ public class UsersController {
         userList.addAll(answerUserList.keySet());
         List<Pair<Long, Integer>> userScoreList = new ArrayList<>();
         for (Long userId : userList) {
-            if(userId==null || userId==-1) continue;
-           //question*5+answer*3+comment*2
+            if (userId == null || userId == -1) continue;
+            //question*5+answer*3+comment*2
             int score = 0;
             if (questionUserList.containsKey(userId)) {
                 score += questionUserList.get(userId) * 5;
@@ -97,14 +97,14 @@ public class UsersController {
         userScoreList.sort((o1, o2) -> o2.getSecond().compareTo(o1.getSecond()));
 
 
-        List<Map<String,Object>> Data3= new ArrayList<>();
+        List<Map<String, Object>> Data3 = new ArrayList<>();
         for (int i = 0; i < 40; i++) {
-            Map<String,Object> map=new HashMap<>();
-            map.put("name",userScoreList.get(i).getFirst());
-            map.put("value",userScoreList.get(i).getSecond());
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", userScoreList.get(i).getFirst());
+            map.put("value", userScoreList.get(i).getSecond());
             Data3.add(map);
         }
-        model.addAttribute("wordcloudData",Data3);
+        model.addAttribute("wordcloudData", Data3);
 
         return "users";
     }

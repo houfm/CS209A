@@ -18,14 +18,14 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
-    public Map<Long,Integer> getAllCommentUsers() {
+    public Map<Long, Integer> getAllCommentUsers() {
         List<Comment> commentList = getAllComments();
-        Map<Long,Integer> userList = new HashMap<>();
+        Map<Long, Integer> userList = new HashMap<>();
         for (Comment comment : commentList) {
-            if(userList.containsKey(comment.getAccountId())) {
-                userList.put(comment.getAccountId(),userList.get(comment.getAccountId())+1);
+            if (userList.containsKey(comment.getAccountId())) {
+                userList.put(comment.getAccountId(), userList.get(comment.getAccountId()) + 1);
             } else {
-                userList.put(comment.getAccountId(),1);
+                userList.put(comment.getAccountId(), 1);
             }
         }
         return userList;

@@ -14,7 +14,7 @@ public class MainController {
     // Service进行数据处理，Repository进行数据库操作
     // Controller调用Service，Service调用Repository这样一个层级关系
     // 每个Service，Controller，Repository都不是必须的，你不一定全都用上
-    @GetMapping({"/", "/index","/main"})
+    @GetMapping({"/", "/index", "/main"})
     public String index(Model model) {
         model.addAttribute("button1Text", "Number of Answers");
         model.addAttribute("button2Text", "Accepted Answers");

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="tag")
+@Table(name = "tag")
 @Data
 public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

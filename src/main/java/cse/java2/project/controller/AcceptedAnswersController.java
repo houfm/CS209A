@@ -47,20 +47,20 @@ public class AcceptedAnswersController {
 //            map.put("value", pair.getSecond());
 //            Data2.add(map);
 //        }
-        List<List<Long>> lineData2=new ArrayList<>();
-        List<List<Long>> lineData1=new ArrayList<>();
+        List<List<Long>> lineData2 = new ArrayList<>();
+        List<List<Long>> lineData1 = new ArrayList<>();
         for (Pair<Long, Integer> pair : timeList) {
-            List<Long> list=new ArrayList<>();
+            List<Long> list = new ArrayList<>();
             list.add(pair.getFirst());
-            list.add((long)pair.getSecond());
+            list.add((long) pair.getSecond());
             lineData2.add(list);
         }
         for (Pair<Long, Integer> pair : timeList) {
             //只取前12小时
-            if(pair.getFirst()<=12*60*60){
-                List<Long> list=new ArrayList<>();
+            if (pair.getFirst() <= 12 * 60 * 60) {
+                List<Long> list = new ArrayList<>();
                 list.add(pair.getFirst());
-                list.add((long)pair.getSecond());
+                list.add((long) pair.getSecond());
                 lineData1.add(list);
             }
         }

@@ -42,13 +42,13 @@ public class AnswerService {
             Timestamp questionTime = question.getCreationDate();
             Timestamp answerTime = answer.getCreationDate();
             long gap = answerTime.getTime() - questionTime.getTime();
-            gap=gap/1000L;
+            gap = gap / 1000L;
             if (timeMap.containsKey(gap)) {
                 timeMap.put(gap, timeMap.get(gap) + 1);
             } else {
                 if (gap >= 1209601L) {
                     timeMap.put(1209601L, timeMap.getOrDefault(1209601L, 0) + 1);
-                }else{
+                } else {
                     timeMap.put(gap, 1);
                 }
 

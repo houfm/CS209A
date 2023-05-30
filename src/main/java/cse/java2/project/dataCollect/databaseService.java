@@ -231,7 +231,7 @@ public class databaseService {
                 questionJSON.getString("body")
         );
         for (Object tag : questionJSON.getJSONArray("tags")) {
-            insertTag((String) tag,questionJSON.getInteger("question_id"));
+            insertTag((String) tag, questionJSON.getInteger("question_id"));
         }
     }
 

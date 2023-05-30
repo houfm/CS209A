@@ -40,40 +40,40 @@ public class APIController {
         List<String> answerApi = answerRepository.findJavaApi();
         List<String> commentApi = commentRepository.findJavaApi();
         List<Object[]> tagApi = tagRepository.findJavaApi();
-        Map<String,Integer> apiMap = new java.util.HashMap<>();
-        for(Object[] api:tagApi){
-            if(apiMap.containsKey((String)api[0])){
-                apiMap.put((String) api[0],apiMap.get(api[0])+Integer.parseInt(Objects.toString(api[1]))*10);
-            }else{
-                apiMap.put((String) api[0],Integer.parseInt(Objects.toString(api[1]))*10);
+        Map<String, Integer> apiMap = new java.util.HashMap<>();
+        for (Object[] api : tagApi) {
+            if (apiMap.containsKey((String) api[0])) {
+                apiMap.put((String) api[0], apiMap.get(api[0]) + Integer.parseInt(Objects.toString(api[1])) * 10);
+            } else {
+                apiMap.put((String) api[0], Integer.parseInt(Objects.toString(api[1])) * 10);
             }
         }
-        for(String api:questionTitleApi){
-            if(apiMap.containsKey(api)){
-                apiMap.put(api,apiMap.get(api)+10);
-            }else{
-                apiMap.put(api,10);
+        for (String api : questionTitleApi) {
+            if (apiMap.containsKey(api)) {
+                apiMap.put(api, apiMap.get(api) + 10);
+            } else {
+                apiMap.put(api, 10);
             }
         }
-        for(String api:questionApi){
-            if(apiMap.containsKey(api)){
-                apiMap.put(api,apiMap.get(api)+3);
-            }else{
-                apiMap.put(api,3);
+        for (String api : questionApi) {
+            if (apiMap.containsKey(api)) {
+                apiMap.put(api, apiMap.get(api) + 3);
+            } else {
+                apiMap.put(api, 3);
             }
         }
-        for(String api:answerApi){
-            if(apiMap.containsKey(api)){
-                apiMap.put(api,apiMap.get(api)+2);
-            }else{
-                apiMap.put(api,3);
+        for (String api : answerApi) {
+            if (apiMap.containsKey(api)) {
+                apiMap.put(api, apiMap.get(api) + 2);
+            } else {
+                apiMap.put(api, 3);
             }
         }
-        for(String api:commentApi){
-            if(apiMap.containsKey(api)){
-                apiMap.put(api,apiMap.get(api)+1);
-            }else{
-                apiMap.put(api,1);
+        for (String api : commentApi) {
+            if (apiMap.containsKey(api)) {
+                apiMap.put(api, apiMap.get(api) + 1);
+            } else {
+                apiMap.put(api, 1);
             }
         }
 

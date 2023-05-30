@@ -15,10 +15,10 @@ public class Comment {
     @Id
     @Column(name = "comment_id")
     private Long commentId;
-    
+
     @Column(name = "edited")
     private boolean edited;
-    
+
     @Column(name = "post_id")
     private Long postId;
 
@@ -28,16 +28,16 @@ public class Comment {
     private Answer answer;
     @Column(name = "body")
     private String body;
-    
+
     @Column(name = "creation_date")
     private Timestamp creationDate;
-    
+
     @Column(name = "score")
     private int score;
-    
+
     @Column(name = "content_license")
     private String contentLicense;
-    
+
     @Column(name = "account_id")
     private Long accountId;
 

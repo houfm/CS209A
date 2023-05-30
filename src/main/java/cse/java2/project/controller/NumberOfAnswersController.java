@@ -29,7 +29,7 @@ public class NumberOfAnswersController {
         model.addAttribute("pieData1", Data1);
         // avg max
         double avgAnswerNum = questionService.getAvgAnswerCount();
-        model.addAttribute("avgAnswerNum",String.format("%.2f",avgAnswerNum));
+        model.addAttribute("avgAnswerNum", String.format("%.2f", avgAnswerNum));
         int maxAnswerNum = questionService.getMaxAnswerCount();
         model.addAttribute("maxAnswerNum", maxAnswerNum);
 

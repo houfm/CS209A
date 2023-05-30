@@ -73,6 +73,6 @@ public class Answer {
         for (Comment comment : commentList) {
             UserMap.add(comment.getAccountId());
         }
-        return UserMap.size()-1;
+        return UserMap.size() - 1;
     }
 }

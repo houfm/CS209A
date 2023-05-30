@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="question")
+@Table(name = "question")
 @Data
 public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,30 +28,30 @@ public class Question {
 
     @Column(name = "view_count")
     private int viewCount;
-    
+
     @Column(name = "content_license")
     private String contentLicense;
 
     @Column(name = "title")
     private String title;
-    
+
     @Column(name = "last_activity_date")
     private Timestamp lastActivityDate;
-    
+
     @Column(name = "last_edit_date")
     private Timestamp lastEditDate;
-    
+
     @Column(name = "creation_date")
     private Timestamp creationDate;
-    
+
     @Column(name = "account_id")
     private Long accountId;
-    
+
     @Column(name = "body")
     private String body;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Answer> answerList;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -64,8 +64,8 @@ public class Question {
     @Transient
     public int getUserCount() {
         int count = 1;
-        for(Answer answer : answerList) {
-            count+= answer.getUserCount(accountId);
+        for (Answer answer : answerList) {
+            count += answer.getUserCount(accountId);
         }
         return count;
     }
@@ -73,7 +73,7 @@ public class Question {
     @Transient
     public int getTotalScore() {
         int totalScore = score;
-        for(Answer answer : answerList) {
+        for (Answer answer : answerList) {
             totalScore += answer.getScore();
         }
         return totalScore;

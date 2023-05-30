@@ -37,11 +37,11 @@ public class TagsController {
 //        pairToXY(tagList1, xData1, yData1);
 //        model.addAttribute("xData1", xData1);
 //        model.addAttribute("yData1", yData1);
-        List<Map<String, Object>> tagMap=new ArrayList<>();
-        for(Pair<String, Integer> pair:tagList1){
-            Map<String, Object> map=new HashMap<>();
-            map.put("name",pair.getFirst());
-            map.put("value",pair.getSecond());
+        List<Map<String, Object>> tagMap = new ArrayList<>();
+        for (Pair<String, Integer> pair : tagList1) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", pair.getFirst());
+            map.put("value", pair.getSecond());
             tagMap.add(map);
         }
         model.addAttribute("wordcloudData", tagMap);
